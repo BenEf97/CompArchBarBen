@@ -3,7 +3,7 @@ li $v0,10
 syscall
 .end_macro
 
-.data  0x10040000
+.data  0x10010000
 B: .space 80  
 C: .space 80
 

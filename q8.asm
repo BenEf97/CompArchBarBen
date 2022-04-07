@@ -3,26 +3,20 @@ li $v0,10
 syscall
 .end_macro
 
-.data  0x10010000
-A: .space 80
+.data 0x10010000
+A: .space 80 #reserving space
 
 .text
-
 jal Data_Block #init 0x10010000 with random numbers
-lw $t3,0($t0) # max
-loop5:
+Loop8:
+lh $t3,0($t0) #even index
+lh $t4,2($t0) #odd index
+sh $t3,2($t0) #store $t0+4 value at $t3
+sh $t4,0($t0) #store $t0 value at $t4
 addi $t0,$t0,4 #$t0+=4
-lw $t1,0($t0) #current
-blt $t3,$t1,L #if $t3<$t1 then jump to L
-j check #else
-L: move $t3,$t1 #max=cuurent
-check:bne $t0,$t2 loop5 #if $t0!=$t2 jump to loop5,else done
+bne $t0,$t2,Loop8
 
-li $v0,1 #print set up
-la $a0,0($t3)
-syscall
-Terminate #close the program
-
+Terminate #end program
 
 
 Data_Block:
@@ -44,3 +38,4 @@ bne $t0,$t2,loop # if $t0!=$t2 jump to loop
 
 la $t0,A #load the desired address to $t0, save it later if needed
 jr $ra
+
