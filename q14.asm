@@ -5,21 +5,27 @@ syscall
 
 .data 0x10010000
 A: .space 80 #reserving space
+output: .asciiz "Please Enter a number to find at the array: "
 
 .text
 jal Data_Block #init 0x10010000 with random numbers
-move $a0,$0
-Loop11:
-lw $t3,0($t0) #getting value
-blt $0,$t3,L #if value is positive then jump to L
-j done #else
-L: addi $a0,$a0,1 #$a0++
-done: 
-addi $t0,$t0,4
-bne $t0,$t2,Loop11
+li $v0,4 #set up print
+la $a0, output
+syscall #prints the string
+li $v0,5 #call for input from user
+syscall #input call
+move $a0,$0 #a0=0
+Loop14:
+lw $t3,0($t0) #$t3=$t0[i]
+bne $t3,$v0,check
+addi $a0,$a0,1 #$a0++
+check:
+addi $t0,$t0,4 #$t0+=4
+bne $t0,$t2,Loop14
 
-li $v0,1 #print integer
-syscall
+li $v0,1 #set up print
+syscall #prints the result
+
 Terminate #end program
 
 
