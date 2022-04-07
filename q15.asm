@@ -4,7 +4,6 @@ syscall
 .end_macro
 
 .data 0x10010000
-A: .space 80 #reserving space
 intro: .asciiz "Enter two numbers and I'll show you the sum, difference, product, quotient, and remainder.\n\nFirst number: "
 second: .asciiz "Second number: "
 sum: .asciiz "Sum: "
